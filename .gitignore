@@ -5,3 +5,6 @@ node_modules
 *.vsix
 .vscode/settings.json
 .claude
+*.generated.md
+ini.md
+README.*.md
