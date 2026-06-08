@@ -6,19 +6,26 @@ Track penggunaan Claude API Anda langsung dari status bar VS Code.
 
 - **Status Bar Display** - Menampilkan usage limit saat ini (contoh: `Claude: 77/250`)
 - **Sidebar Dashboard** - Panel interaktif dengan statistik lengkap (hourly & weekly usage, reset times)
+- **Codex Usage** - Menampilkan rate limit Codex dari endpoint `wham/usage` jika token/session API tersedia
 - **Auto Refresh** - Data otomatis diperbarui setiap 5 menit
 - **Manual Refresh** - Klik pada status bar atau jalankan command `Refresh Claude Usage`
 - **Tooltip Info** - Arahkan mouse ke status bar untuk melihat detail lengkap
 
 ## Preview
 
+### Claude Usage
+
 ![Claude Usage Dashboard](assets/preview.png)
+
+### Codex Usage
+
+![Codex Usage Dashboard](assets/codex-preview.svg)
 
 Status bar menampilkan: `$(cloud) Claude: {current}/{max}`
 
 Tooltip menampilkan detail lengkap penggunaan API.
 
-Sidebar panel menampilkan dashboard dengan statistik lengkap.
+Sidebar panel menampilkan dashboard Claude dan Codex dengan statistik lengkap. Untuk Codex, panel menampilkan window usage, waktu reset, email, status, credits, dan spend control.
 
 ## Requirement
 
@@ -30,8 +37,10 @@ Sidebar panel menampilkan dashboard dengan statistik lengkap.
 1. Clone repository ini
 2. Jalankan `npm install`
 3. Jalankan `npm run compile` untuk compile TypeScript
-4. Jalankan `npm run package` untuk membuat file `.vsix`
-5. Instal ke VS Code:
+4. Jalankan `npm run package` untuk membuat bundle production di folder `dist`
+5. Jalankan `npm run vsix` untuk membuat file `.vsix`
+6. File VSIX akan muncul di root project, misalnya `claude-usage-0.0.1.vsix`
+7. Instal ke VS Code:
    - Klik ikon **Extensions** di menu paling kiri VS Code (atau tekan `Ctrl + Shift + X`)
    - Di pojok kanan atas panel Extensions, klik ikon **Titik Tiga (...)**
    - Pilih menu **Install from VSIX...**
@@ -48,10 +57,14 @@ Tekan `F5` di VS Code untuk membuka jendela Extension Development Host.
 | Command | Deskripsi |
 |---------|-----------|
 | `claude-usage.refreshData` | Refresh data penggunaan manual |
+| `claude-usage.setCodexAuth` | Simpan Bearer token atau Cookie ChatGPT untuk Codex usage |
+| `claude-usage.clearCodexAuth` | Hapus auth Codex yang tersimpan |
 
 ## API Endpoint
 
 Extension ini mengambil data dari `https://ai.bluepack.my.id/api/check-usage`. Pastikan endpoint tersebut accessible dari mesin Anda.
+
+Codex usage diambil dari `https://chatgpt.com/backend-api/wham/usage`. Jika endpoint ini hanya bisa dibuka lewat browser yang sudah login, jalankan command `Set Codex Auth`, lalu paste `Bearer ...` atau `Cookie: ...` dari request browser. Auth disimpan di VS Code SecretStorage. Alternatifnya, ubah `claudeUsage.codexEndpoint` ke endpoint proxy yang sudah authenticated.
 
 ## Teknologi
 
