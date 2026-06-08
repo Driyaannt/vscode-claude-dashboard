@@ -43,7 +43,7 @@
       "properties": {
         "claudeUsage.identifier": {
           "type": "string",
-          "default": "driya_",
+          "default": "",
           "description": "Identifier untuk API endpoint (username/email)"
         },
         "claudeUsage.codexBearerToken": {

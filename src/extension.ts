@@ -62,10 +62,15 @@ async function fetchUsageData() {
 
   try {
     // Fetch Claude usage
+    const identifier = vscode.workspace.getConfiguration("claudeUsage").get<string>("identifier", "").trim();
+    if (!identifier) {
+      throw new Error("Identifier Claude belum diset.");
+    }
+
     const response = await fetch("https://ai.bluepack.my.id/api/check-usage", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ identifier: vscode.workspace.getConfiguration("claudeUsage").get("identifier") || "driya_" }),
+      body: JSON.stringify({ identifier }),
     });
 
     if (!response.ok) {
@@ -92,7 +97,7 @@ async function fetchUsageData() {
 
   } catch (error) {
     myStatusBarItem.text = `$(error) Error`;
-    myStatusBarItem.tooltip = "Gagal mengambil data dari API.";
+    myStatusBarItem.tooltip = error instanceof Error ? error.message : "Gagal mengambil data dari API.";
   }
 }
 

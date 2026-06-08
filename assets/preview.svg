@@ -1,0 +1,48 @@
+<svg width="277" height="224" viewBox="0 0 277 224" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .label { fill: #64748b; font: 8px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; text-transform: uppercase; }
+    .value { fill: #d1d5db; font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .small { fill: #60a5fa; font: 9px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .reset { fill: #d1d5db; font: 600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .title { fill: #fff; font: 700 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    .badge { fill: #78350f; font: 700 10px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  </style>
+
+  <rect width="277" height="224" fill="#1f242b"/>
+
+  <rect x="5" y="7" width="267" height="32" rx="6" fill="#2f6fed"/>
+  <text x="17" y="27" class="title">Claude Usage</text>
+  <rect x="229" y="15" width="32" height="16" rx="8" fill="#f59e0b"/>
+  <text x="237" y="27" class="badge">pro</text>
+
+  <rect x="6" y="48" width="129" height="72" rx="6" fill="#252b32"/>
+  <text x="54" y="66" class="label">Hourly</text>
+  <text x="79" y="86" text-anchor="middle" class="value">88/250</text>
+  <text x="63" y="100" class="small">35%</text>
+  <rect x="14" y="107" width="113" height="4" rx="2" fill="#1f242b"/>
+  <rect x="14" y="107" width="39" height="4" rx="2" fill="#3b82f6"/>
+
+  <rect x="142" y="48" width="130" height="72" rx="6" fill="#252b32"/>
+  <text x="193" y="66" class="label">Weekly</text>
+  <text x="207" y="86" text-anchor="middle" class="value">456/2500</text>
+  <text x="201" y="100" class="small">18%</text>
+  <rect x="151" y="107" width="113" height="4" rx="2" fill="#1f242b"/>
+  <rect x="151" y="107" width="20" height="4" rx="2" fill="#3b82f6"/>
+
+  <rect x="6" y="128" width="129" height="40" rx="6" fill="#252b32"/>
+  <text x="14" y="145" class="label">Reset Hourly</text>
+  <text x="14" y="159" class="reset">08 Jun 18:30 WIB</text>
+
+  <rect x="142" y="128" width="130" height="40" rx="6" fill="#252b32"/>
+  <text x="150" y="145" class="label">Reset Weekly</text>
+  <text x="150" y="159" class="reset">09 Jun 10:45 WIB</text>
+
+  <rect x="6" y="176" width="129" height="40" rx="6" fill="#252b32"/>
+  <text x="14" y="192" class="label">API Key</text>
+  <path d="M10 203 C20 198 34 199 45 201 C40 206 26 208 12 207 C7 206 6 205 10 203Z" fill="#ef4444"/>
+  <path d="M13 205 C22 202 34 202 43 204" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+
+  <rect x="142" y="176" width="130" height="40" rx="6" fill="#252b32"/>
+  <text x="150" y="192" class="label">Expires</text>
+  <text x="150" y="206" class="reset">2026-06-23</text>
+</svg>

@@ -10,24 +10,24 @@
 
   <rect width="286" height="299" fill="#1f242b"/>
 
-  <rect x="8" y="7" width="278" height="32" rx="6" fill="#10b981"/>
+  <rect x="8" y="7" width="270" height="32" rx="6" fill="#10b981"/>
   <text x="18" y="27" class="title">Codex Usage</text>
   <rect x="230" y="15" width="34" height="16" rx="8" fill="#a7f3d0"/>
   <text x="238" y="27" class="badge">PLUS</text>
 
   <rect x="8" y="48" width="137" height="80" rx="6" fill="#252b32"/>
   <text x="51" y="70" class="label">5H Window</text>
-  <text x="60" y="94" class="value">41%</text>
+  <text x="60" y="94" class="value">53%</text>
   <text x="65" y="106" class="small">Used</text>
   <rect x="16" y="114" width="116" height="4" rx="2" fill="#1f242b"/>
-  <rect x="16" y="114" width="48" height="4" rx="2" fill="#10b981"/>
+  <rect x="16" y="114" width="61" height="4" rx="2" fill="#10b981"/>
 
   <rect x="153" y="48" width="129" height="80" rx="6" fill="#252b32"/>
   <text x="190" y="70" class="label">7D Window</text>
-  <text x="205" y="94" class="value">6%</text>
+  <text x="205" y="94" class="value">8%</text>
   <text x="202" y="106" class="small">Used</text>
   <rect x="160" y="114" width="115" height="4" rx="2" fill="#1f242b"/>
-  <rect x="160" y="114" width="7" height="4" rx="2" fill="#10b981"/>
+  <rect x="160" y="114" width="9" height="4" rx="2" fill="#10b981"/>
 
   <rect x="8" y="134" width="137" height="80" rx="6" fill="#252b32"/>
   <text x="16" y="150" class="label">Reset Primary</text>
@@ -40,7 +40,8 @@
 
   <rect x="8" y="221" width="137" height="38" rx="6" fill="#252b32"/>
   <text x="16" y="238" class="label">Email</text>
-  <text x="16" y="252" class="reset">mugi***@outlook.com</text>
+  <path d="M18 248 C36 242 72 244 95 246 C118 248 145 243 166 248 C157 254 126 254 102 252 C73 250 43 255 18 253 C12 252 12 250 18 248Z" fill="#ef4444"/>
+  <path d="M24 250 C55 247 87 250 116 249 C136 248 151 247 163 250" stroke="#dc2626" stroke-width="4" stroke-linecap="round"/>
 
   <rect x="153" y="221" width="129" height="38" rx="6" fill="#252b32"/>
   <text x="161" y="238" class="label">Status</text>

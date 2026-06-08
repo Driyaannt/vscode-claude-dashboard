@@ -95,7 +95,7 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
   private getDashboardHtml(data?: UsageData, codexState?: CodexUsageState): string {
     const defaultData: UsageData = {
       base_req: 250, base_weekly: 2500, boost_5h: 0, boost_active: false, boost_expires: "", boost_weekly: 0, cap_applied: false,
-      current_req: 0, email: "driya_", expires_at: "", full_reset_5h: "", full_reset_7d: "", is_expired: false, lookup_mode: "username",
+      current_req: 0, email: "", expires_at: "", full_reset_5h: "", full_reset_7d: "", is_expired: false, lookup_mode: "username",
       max_req: 250, max_weekly: 2500, percent_5h: 0, percent_weekly: 0, plan: "pro", plan_display: "PRO", reset_5h: "", reset_7d: "",
       timezone: "WIB", weekly_usage: 0,
     };
@@ -186,7 +186,7 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
     <div class="info-row">
       <div class="info-box">
         <div class="i-label">API Key</div>
-        <div class="i-value">${this.escapeHtml(d.email)}</div>
+        <div class="i-value">${this.escapeHtml(this.maskSensitiveValue(d.email))}</div>
       </div>
       <div class="info-box">
         <div class="i-label">Expires</div>
@@ -204,7 +204,7 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
   private renderCodexSection(codexState?: CodexUsageState): string {
     const state = codexState ?? {
       status: "not-configured" as const,
-      message: "Token Codex belum diset di claudeUsage.codexBearerToken.",
+      message: "Auth Codex belum diset. Jalankan command Set Codex Auth.",
     };
     const cd = state.data;
     const primaryPercent = this.formatPercent(cd?.rate_limit?.primary_window?.used_percent);
@@ -253,7 +253,7 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
     <div class="info-row">
       <div class="info-box">
         <div class="i-label">Email</div>
-        <div class="i-value">${this.escapeHtml(cd.email || "N/A")}</div>
+        <div class="i-value">${this.escapeHtml(this.maskSensitiveValue(cd.email))}</div>
       </div>
       <div class="info-box">
         <div class="i-label">Status</div>
@@ -372,6 +372,10 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
     }
     const resets = data.rate_limit_reset_credits?.available_count ?? 0;
     return `${data.credits.balance || "0"} / reset ${resets}`;
+  }
+
+  private maskSensitiveValue(value: string | undefined): string {
+    return value?.trim() ? "********" : "N/A";
   }
 
   private escapeHtml(value: string): string {

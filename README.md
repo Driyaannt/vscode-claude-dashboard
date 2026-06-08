@@ -15,7 +15,7 @@ Track penggunaan Claude API Anda langsung dari status bar VS Code.
 
 ### Claude Usage
 
-![Claude Usage Dashboard](assets/preview.png)
+![Claude Usage Dashboard](assets/preview.svg)
 
 ### Codex Usage
 
@@ -25,7 +25,7 @@ Status bar menampilkan: `$(cloud) Claude: {current}/{max}`
 
 Tooltip menampilkan detail lengkap penggunaan API.
 
-Sidebar panel menampilkan dashboard Claude dan Codex dengan statistik lengkap. Untuk Codex, panel menampilkan window usage, waktu reset, email, status, credits, dan spend control.
+Sidebar panel menampilkan dashboard Claude dan Codex dengan statistik lengkap. API key dan email disensor di tampilan agar credential tidak terbaca.
 
 ## Requirement
 
