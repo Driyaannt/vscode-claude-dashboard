@@ -74,6 +74,9 @@ export interface CodexUsageState {
 export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'claudeUsageView';
   private _view?: vscode.WebviewView;
+  private _data?: UsageData;
+  private _codexState?: CodexUsageState;
+  private _message?: string;
 
   constructor(private readonly _extensionUri: vscode.Uri) {}
 
@@ -83,16 +86,30 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
       enableScripts: true,
       localResourceRoots: [this._extensionUri]
     };
-    webviewView.webview.html = this.getDashboardHtml();
+    webviewView.webview.html = this.getDashboardHtml(this._data, this._codexState, this._message);
   }
 
   public updateData(data: UsageData, codexState?: CodexUsageState) {
+    this._data = data;
+    this._codexState = codexState;
+    this._message = undefined;
+    this.refreshView();
+  }
+
+  public updateMessage(message: string, codexState?: CodexUsageState) {
+    this._data = undefined;
+    this._codexState = codexState;
+    this._message = message;
+    this.refreshView();
+  }
+
+  private refreshView() {
     if (this._view) {
-      this._view.webview.html = this.getDashboardHtml(data, codexState);
+      this._view.webview.html = this.getDashboardHtml(this._data, this._codexState, this._message);
     }
   }
 
-  private getDashboardHtml(data?: UsageData, codexState?: CodexUsageState): string {
+  private getDashboardHtml(data?: UsageData, codexState?: CodexUsageState, message?: string): string {
     const defaultData: UsageData = {
       base_req: 250, base_weekly: 2500, boost_5h: 0, boost_active: false, boost_expires: "", boost_weekly: 0, cap_applied: false,
       current_req: 0, email: "", expires_at: "", full_reset_5h: "", full_reset_7d: "", is_expired: false, lookup_mode: "username",
@@ -145,6 +162,7 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
     .codex-badge.warn { background: #FDE68A; color: #78350F; }
     .codex-badge.error { background: #FCA5A5; color: #7F1D1D; }
     .codex-message { background: var(--vscode-editor-background); border: 1px solid var(--vscode-widget-border); border-radius: 6px; padding: 8px; color: var(--vscode-descriptionForeground); font-size: 11px; line-height: 1.4; }
+    .dashboard-message { background: var(--vscode-editor-background); border: 1px solid var(--vscode-widget-border); border-radius: 6px; padding: 10px; color: var(--vscode-descriptionForeground); font-size: 11px; line-height: 1.4; }
 
     .loading { text-align: center; padding: 20px; color: var(--vscode-descriptionForeground); }
   </style>
@@ -194,6 +212,15 @@ export class ClaudeUsageViewProvider implements vscode.WebviewViewProvider {
       </div>
     </div>
 
+    ${this.renderCodexSection(codexState)}
+  </div>
+  ` : message ? `
+  <div class="container">
+    <div class="header">
+      <span class="header-title">Claude Usage</span>
+      <span class="badge">SETUP</span>
+    </div>
+    <div class="dashboard-message">${this.escapeHtml(message)}</div>
     ${this.renderCodexSection(codexState)}
   </div>
   ` : `<div class="loading">Memuat data...</div>`}

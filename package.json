@@ -30,6 +30,14 @@
         "title": "Refresh Claude Usage"
       },
       {
+        "command": "claude-usage.setClaudeAuth",
+        "title": "Set Claude Auth"
+      },
+      {
+        "command": "claude-usage.clearClaudeAuth",
+        "title": "Clear Claude Auth"
+      },
+      {
         "command": "claude-usage.setCodexAuth",
         "title": "Set Codex Auth"
       },
@@ -41,11 +49,6 @@
     "configuration": {
       "title": "Claude Usage",
       "properties": {
-        "claudeUsage.identifier": {
-          "type": "string",
-          "default": "",
-          "description": "Identifier untuk API endpoint (username/email)"
-        },
         "claudeUsage.codexBearerToken": {
           "type": "string",
           "default": "",

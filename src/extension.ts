@@ -5,8 +5,14 @@ import { ClaudeUsageViewProvider, UsageData, CodexUsageData, CodexUsageState } f
 let myStatusBarItem: vscode.StatusBarItem;
 let provider: ClaudeUsageViewProvider; // Tambahkan variabel provider
 let secretStorage: vscode.SecretStorage | undefined;
+const DEFAULT_CLAUDE_USAGE_ENDPOINT = "https://ai.bluepack.my.id/api/check-usage";
 const DEFAULT_CODEX_USAGE_ENDPOINT = "https://chatgpt.com/backend-api/wham/usage";
+const CLAUDE_AUTH_SECRET_KEY = "claudeUsage.claudeAuth";
 const CODEX_AUTH_SECRET_KEY = "claudeUsage.codexAuth";
+
+interface ClaudeAuthSecret {
+  identifier: string;
+}
 
 interface CodexAuthSecret {
   type: "bearer" | "cookie";
@@ -28,6 +34,16 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand(refreshCommand, () => {
       fetchUsageData();
+    }),
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("claude-usage.setClaudeAuth", async () => {
+      await setClaudeAuth();
+    }),
+  );
+  context.subscriptions.push(
+    vscode.commands.registerCommand("claude-usage.clearClaudeAuth", async () => {
+      await clearClaudeAuth();
     }),
   );
   context.subscriptions.push(
@@ -62,12 +78,16 @@ async function fetchUsageData() {
 
   try {
     // Fetch Claude usage
-    const identifier = vscode.workspace.getConfiguration("claudeUsage").get<string>("identifier", "").trim();
+    const identifier = await getClaudeIdentifier();
     if (!identifier) {
-      throw new Error("Identifier Claude belum diset.");
+      const message = "Auth Claude belum diset. Jalankan command Set Claude Auth, lalu paste API key atau identifier Claude usage.";
+      myStatusBarItem.text = `$(warning) Claude setup`;
+      myStatusBarItem.tooltip = message;
+      provider.updateMessage(message, await fetchCodexUsageData());
+      return;
     }
 
-    const response = await fetch("https://ai.bluepack.my.id/api/check-usage", {
+    const response = await fetch(DEFAULT_CLAUDE_USAGE_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier }),
@@ -96,9 +116,62 @@ async function fetchUsageData() {
     provider.updateData(data, codexState);
 
   } catch (error) {
+    const message = error instanceof Error ? error.message : "Gagal mengambil data dari API.";
     myStatusBarItem.text = `$(error) Error`;
-    myStatusBarItem.tooltip = error instanceof Error ? error.message : "Gagal mengambil data dari API.";
+    myStatusBarItem.tooltip = message;
+    provider.updateMessage(message);
   }
+}
+
+async function setClaudeAuth() {
+  if (!secretStorage) {
+    vscode.window.showErrorMessage("SecretStorage VS Code belum tersedia.");
+    return;
+  }
+
+  const input = await vscode.window.showInputBox({
+    prompt: "Paste API key atau identifier untuk Claude usage",
+    placeHolder: "Claude API key atau identifier",
+    password: true,
+    ignoreFocusOut: true,
+  });
+
+  if (!input?.trim()) {
+    return;
+  }
+
+  await secretStorage.store(CLAUDE_AUTH_SECRET_KEY, JSON.stringify({ identifier: input.trim() }));
+  vscode.window.showInformationMessage("Claude auth tersimpan. Refreshing usage...");
+  fetchUsageData();
+}
+
+async function clearClaudeAuth() {
+  if (!secretStorage) {
+    vscode.window.showErrorMessage("SecretStorage VS Code belum tersedia.");
+    return;
+  }
+
+  await secretStorage.delete(CLAUDE_AUTH_SECRET_KEY);
+  vscode.window.showInformationMessage("Claude auth dihapus.");
+  fetchUsageData();
+}
+
+async function getClaudeIdentifier(): Promise<string | undefined> {
+  const secret = await secretStorage?.get(CLAUDE_AUTH_SECRET_KEY);
+
+  if (secret) {
+    try {
+      const parsed = JSON.parse(secret) as ClaudeAuthSecret;
+      const identifier = parsed.identifier?.trim();
+      if (identifier) {
+        return identifier;
+      }
+    } catch {
+      await secretStorage?.delete(CLAUDE_AUTH_SECRET_KEY);
+    }
+  }
+
+  return undefined;
 }
 
 async function fetchCodexUsageData(): Promise<CodexUsageState> {

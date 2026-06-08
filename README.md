@@ -32,6 +32,10 @@ Sidebar panel menampilkan dashboard Claude dan Codex dengan statistik lengkap. A
 - VS Code versi 1.120.0 atau lebih baru
 - Koneksi internet untuk mengambil data dari API
 
+## Configuration
+
+Jalankan command `Set Claude Auth`, lalu paste API key atau identifier Claude usage. Nilai ini disimpan di VS Code SecretStorage dan tidak ditampilkan mentah di dashboard.
+
 ## Installation
 
 1. Clone repository ini
@@ -57,12 +61,14 @@ Tekan `F5` di VS Code untuk membuka jendela Extension Development Host.
 | Command | Deskripsi |
 |---------|-----------|
 | `claude-usage.refreshData` | Refresh data penggunaan manual |
+| `claude-usage.setClaudeAuth` | Simpan API key atau identifier Claude usage |
+| `claude-usage.clearClaudeAuth` | Hapus auth Claude yang tersimpan |
 | `claude-usage.setCodexAuth` | Simpan Bearer token atau Cookie ChatGPT untuk Codex usage |
 | `claude-usage.clearCodexAuth` | Hapus auth Codex yang tersimpan |
 
 ## API Endpoint
 
-Extension ini mengambil data dari `https://ai.bluepack.my.id/api/check-usage`. Pastikan endpoint tersebut accessible dari mesin Anda.
+Claude usage diambil dari `https://ai.bluepack.my.id/api/check-usage`. Jalankan command `Set Claude Auth`, lalu paste API key atau identifier Claude usage. Auth disimpan di VS Code SecretStorage.
 
 Codex usage diambil dari `https://chatgpt.com/backend-api/wham/usage`. Jika endpoint ini hanya bisa dibuka lewat browser yang sudah login, jalankan command `Set Codex Auth`, lalu paste `Bearer ...` atau `Cookie: ...` dari request browser. Auth disimpan di VS Code SecretStorage. Alternatifnya, ubah `claudeUsage.codexEndpoint` ke endpoint proxy yang sudah authenticated.
 
